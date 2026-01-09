@@ -230,6 +230,8 @@ def main():
                        help="Path to PyTorch results (JSON)")
     parser.add_argument("--onnx-results", type=str, default=None,
                        help="Path to ONNX results (JSON)")
+    parser.add_argument("--onnx-model", type=str, default="data/outputs/yolo11n_real.onnx",
+                       help="Path to ONNX model")
     parser.add_argument("--iou", type=float, default=0.5,
                        help="IoU threshold for matching")
     
@@ -259,7 +261,7 @@ def main():
         else:
             # Run ONNX inference
             from onnx_inference import ONNXYOLOInference
-            onnx_inference = ONNXYOLOInference("models/yolo11n.onnx")
+            onnx_inference = ONNXYOLOInference(args.onnx_model)
             onnx_detections = onnx_inference.predict(args.image, save_output=False)
         
         # Compare results

@@ -56,19 +56,19 @@ ID   Class           Confidence   Bounding Box
 
 ```bash
 # Export PyTorch model to ONNX format
-python3 onnx_export.py --model data/images/yolo11n.pt --output models/yolo11n_real.onnx
+python3 onnx_export.py --model data/images/yolo11n.pt --output data/outputs/yolo11n_real.onnx
 
 # Expected Output:
 # - Console: Export progress and validation
-# - File: models/yolo11n_real.onnx (ONNX model)
+# - File: data/outputs/yolo11n_real.onnx (ONNX model)
 ```
 
 **Example Output:**
 ```
 🔄 Converting PyTorch model to ONNX...
-Creating YOLO ONNX model: models/yolo11n_real.onnx
+Creating YOLO ONNX model: data/outputs/yolo11n_real.onnx
 Creating ONNX model from real YOLO PyTorch model...
-✓ Real YOLO ONNX model created: models/yolo11n_real.onnx
+✓ Real YOLO ONNX model created: data/outputs/yolo11n_real.onnx
 Validating ONNX model...
 ✓ ONNX model validation passed
 ✅ ONNX export completed
@@ -78,7 +78,7 @@ Validating ONNX model...
 
 ```bash
 # Run inference with ONNX model
-python3 onnx_inference.py --model models/yolo11n_real.onnx --image data/images/image_1.png
+python3 onnx_inference.py --model data/outputs/yolo11n_real.onnx --image data/images/image_1.png
 
 # Expected Output:
 # - Console: Detection results (should match PyTorch closely)
@@ -88,7 +88,7 @@ python3 onnx_inference.py --model models/yolo11n_real.onnx --image data/images/i
 **Example Output:**
 ```
 ⚡ Running ONNX YOLO inference...
-✓ Loaded ONNX model: models/yolo11n_real.onnx
+✓ Loaded ONNX model: data/outputs/yolo11n_real.onnx
 ✓ Input size: (640, 640)
 Saved ONNX detections: data/images/image_1_onnx.png
 
@@ -147,7 +147,7 @@ Metrics:
 python3 pipeline.py
 
 # With custom parameters
-python3 pipeline.py --model data/images/yolo11n.pt --image data/images/image_1.png --onnx models/yolo11n_real.onnx
+python3 pipeline.py --model data/images/yolo11n.pt --image data/images/image_1.png --onnx data/outputs/yolo11n_real.onnx
 
 # Skip specific steps
 python3 pipeline.py --skip-pytorch    # Only ONNX export + inference + comparison
@@ -168,8 +168,8 @@ python3 pipeline.py --skip-comparison  # Only PyTorch + ONNX export + inference
 - `image_1_comparison.png` - Side-by-side comparison with IoU lines
 
 ### Model Files:
-- `yolo11n.pt` - Original PyTorch model
-- `yolo11n_real.onnx` - Exported ONNX model
+- `data/images/yolo11n.pt` - Original PyTorch model
+- `data/outputs/yolo11n_real.onnx` - Exported ONNX model
 
 ## 🎯 Tasks Coverage
 
@@ -189,7 +189,7 @@ python3 pipeline.py --skip-comparison  # Only PyTorch + ONNX export + inference
 ```bash
 # Test individual components
 python3 pytorch_inference.py --model data/images/yolo11n.pt --image data/images/image_1.png
-python3 onnx_inference.py --model models/yolo11n_real.onnx --image data/images/image_1.png
+python3 onnx_inference.py --model data/outputs/yolo11n_real.onnx --image data/images/image_1.png
 python3 iou_comparison.py --image data/images/image_1.png
 ```
 
